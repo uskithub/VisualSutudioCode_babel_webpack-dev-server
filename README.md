@@ -27,7 +27,8 @@ https://code.visualstudio.com/download
 VisualStudioCodeもSublimeのようにプラグインで拡張が可能。
 ChromeのRemoteデバッグに対応するためのプラグインを導入する。
 
-![Debugger for Chromeプラグインのインストール](https://www.evernote.com/l/AAyOI0hv_9VH6LhD_dy-op_JjPYkrMRenv0)
+![Debugger for Chromeプラグインのインストール](https://www.evernote.com/l/AAyOI0hv_9VH6LhD_dy-op_JjPYkrMRenv0B/image.png)
+
 
 ### その他前提
 
@@ -75,11 +76,13 @@ success Saved package.json
 
 ### グローバルでやること
 
-webpackのインストール。webpackはモジュールバンドラという立ち位置。webpackが流行る前はgulpまたはgruntなどのタスクランナーでやっていた開発ソースからプロダクトモジュールへの変換部分を担っている。Web閲覧時、HTTP通信が増えるとオーバーヘッドが大きくなるので、必要なファイル数を減らすことが高速化＝ユーザ体験向上の基本戦略であり、複数のJSを一つにまとめたり、複数画像を一枚にしたり（CSSスプライトという）する。その他に、生のCSSはメンテナンス性が低いので、より少ない行数で書けて可読性も高めたSCSSなどの言語で開発を行い、コンパイルしてCSSにするなどの手法が一般的になっていて、このコンパイルも行う。
+webpackのインストール。
 
 ```
 $ yarn global add webpack
 ```
+
+webpackはモジュールバンドラという立ち位置。webpackが流行る前はgulpまたはgruntなどのタスクランナーでやっていた開発ソースからプロダクトモジュールへの変換部分を担っている。Web閲覧時、HTTP通信が増えるとオーバーヘッドが大きくなるので、必要なファイル数を減らすことが高速化＝ユーザ体験向上の基本戦略であり、複数のJSを一つにまとめたり、複数画像を一枚にしたり（CSSスプライトという）する。その他に、生のCSSはメンテナンス性が低いので、より少ない行数で書けて可読性も高めたSCSSなどの言語で開発を行い、コンパイルしてCSSにするなどの手法が一般的になっていて、このコンパイルも行う。
 
 ### プロジェクト毎にやること
 
@@ -87,7 +90,7 @@ $ yarn global add webpack
 $ yarn add babel-loader@6.0.1 babel-core babel-preset-es2015 webpack webpack-dev-server --dev
 ```
 
-babelはES2015のコードを一般的に使われているブラウザたちで動くJavaScript（ES5）にトランスパイルしてくれるツール。webpackと一緒に使う場合のインストール方法の[公式](https://babeljs.io/docs/setup/#installation)。
+babelはES2015のコードを一般的に使われているブラウザたちで動くJavaScript（ES5）にトランスパイルしてくれるツール。webpackと一緒に使う場合のインストール方法の[公式ドキュメントはこちら](https://babeljs.io/docs/setup/#installation)。
 
 現時点（2017/05/04）でbabel-loaderは7.0.0が最新だが、6.0.1でないと動かないので注意。6.1.0以降ダメな模様。
 
@@ -160,7 +163,7 @@ webpack.config.jsを作る。
 $ touch webpack.config.js
 ```
 
-中身は以下の様にします。
+中身は以下の様にする。
 
 ```
 const path = require('path');
@@ -203,7 +206,7 @@ module.exports = {
 
 ### 起動コマンド
 
-webpackを起動してJSのトランスパイルする。source-mapを作成するには -d オプションを付ける（public以下にbundle.js.mapができていればOK）。
+webpackを起動してJSのトランスパイルするコマンド。source-mapを作成するには -d オプションを付ける（public以下にbundle.js.mapができていればOK）。
 
 ```
 $ webpack -d
@@ -216,7 +219,7 @@ bundle.js  28.4 kB       0  [emitted]  main
    [1] multi ./src/main.js 28 bytes {0} [built]
 ```
 
-webpack-dev-serverを起動する。
+webpack-dev-serverを起動するコマンド。
 
 ```
 $ ./node_modules/.bin/webpack-dev-server -d
@@ -286,8 +289,8 @@ $ yarn run start
 
 VisualStudioCodeのデバッグ向けの設定はlaunch.jsonに記述する。このjsonファイルはVisualStudioCode上で自動生成する（生成後は.vscode/launch.json で編集可能）。
 
-![](https://www.evernote.com/l/AAzvG3hSlDRDG7YuU4PaLHUkPuUB5WQ8wd8)
-![](https://www.evernote.com/l/AAyRNc2iFIlBeot_tBCkMoBA4cBx-FqgHbg)
+![](https://www.evernote.com/l/AAzvG3hSlDRDG7YuU4PaLHUkPuUB5WQ8wd8B/image.png)
+![](https://www.evernote.com/l/AAyRNc2iFIlBeot_tBCkMoBA4cBx-FqgHbgB/image.png)
 
 デフォルトではlaunchとattachの2つの設定が作成されている。launchはVisualStudioCodeから（Remoteデバッグ可能な）Chromeを起動してデバッグを行う。一方attachは既に起動しているChromeに後からRemoteデバッグを紐付ける形でデバッグを行うことができる（ただし、Chromeに起動オプションを渡す必要あり）。
 
@@ -312,10 +315,12 @@ VisualStudioCodeのデバッグ向けの設定はlaunch.jsonに記述する。�
         {
             "type": "chrome",
             "request": "attach",
+            "trace": true,
+            "sourceMaps": true,
             "name": "Attach to Chrome",
             "port": 9222,
             "url": "http://localhost:3355",
-            "webRoot": "${workspaceRoot}"
+            "webRoot": "${workspaceRoot}/public"
             , "sourceMapPathOverrides": {
                 "webpack:///*": "${workspaceRoot}/src/*"
             }
@@ -326,13 +331,13 @@ VisualStudioCodeのデバッグ向けの設定はlaunch.jsonに記述する。�
 
 上手く行けば以下の様にブレークポイント（赤丸）で止まる。
 
-![](https://www.evernote.com/l/AAwYCxXY4hNN0qPlt3tPpjfJuOd8GZZDd3g)
+![OKパターン](https://www.evernote.com/l/AAwYCxXY4hNN0qPlt3tPpjfJuOd8GZZDd3gB/image.png)
 
 ちなみに設定が上手くいっていないと以下の様にブレークポイントが効かなくて悩まされることになる。
 
 > Breakpoint ignored because generated code not found (source map problem?).
 
-![](https://www.evernote.com/l/AAwtWxfPU9RIP6w9wBAGcaW72zS8XyIoI7s)
+![NGパターン](https://www.evernote.com/l/AAwtWxfPU9RIP6w9wBAGcaW72zS8XyIoI7sB/image.png)
 
 以下、直すまでのTips
 
