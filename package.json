@@ -1,0 +1,22 @@
+{
+  "name": "VisualSutudioCode_babel_webpack-dev-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/uskithub/VisualSutudioCode_babel_webpack-dev-server.git",
+  "author": "Yusuke SAITO",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "6.0.1",
+    "babel-preset-es2015": "^6.24.1",
+    "webpack": "^2.5.0",
+    "webpack-dev-server": "^2.4.5"
+  }
+  , "scripts" : {
+    "start" : "webpack-dev-server -d"
+    , "build" : "webpack -d"
+  }
+  , "babel": {
+    "presets": ["es2015"]
+  }
+}
