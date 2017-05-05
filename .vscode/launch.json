@@ -16,10 +16,12 @@
         {
             "type": "chrome",
             "request": "attach",
+            "trace": true,
+            "sourceMaps": true,
             "name": "Attach to Chrome",
             "port": 9222,
             "url": "http://localhost:3355",
-            "webRoot": "${workspaceRoot}"
+            "webRoot": "${workspaceRoot}/public"
             , "sourceMapPathOverrides": {
                 "webpack:///*": "${workspaceRoot}/src/*"
             }
